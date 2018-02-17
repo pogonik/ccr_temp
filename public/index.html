@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>CCR</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
+		<meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1" media="(device-height: 568px)">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="HandheldFriendly" content="True">
+		<meta http-equiv="cleartype" content="on">
+
+		<link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+		<link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+
+		<link href="%PUBLIC_URL%/css/bootstrap.css" rel="stylesheet" />
+		<link href="%PUBLIC_URL%/css/font/stylesheet.css" rel="stylesheet" />
+		<link href="%PUBLIC_URL%/css/react-select.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="src/css/flickity.min.css" />
+		<!-- <link rel="stylesheet" href="%PUBLIC_URL%/js/owl-carousel/assets/owl.carousel.min.css">
+		<link rel="stylesheet" href="%PUBLIC_URL%/js/owl-carousel/assets/owl.theme.default.min.css">
+		<link rel="stylesheet" href="%PUBLIC_URL%/js/owl-carousel/assets/owl.theme.default.min.css"> -->
+		<link href="%PUBLIC_URL%/css/style.css" rel="stylesheet" />
+		<link href="%PUBLIC_URL%/css/resize.css" rel="stylesheet" />
+	</head>
+
+	<body id="home">
+
+		<div class="header_wrapper">
+			<div id="top" class="visible-lg">
+				<div class="container">
+					<div class="row">
+
+						<div class="col-lg-9 address">
+							Dammstrasse 18, 8112 Otelfingen | E-mail: Office@ccracing.ch | Tel: +41 (0) 44 820 30 20 | Mobile: +41 (0) 76 370 66 65
+						</div>
+
+						<div id="top_links">
+							<ul class="nav nav-pills">
+								<li class="cartBtn dropdown">
+									<button class="btn btn-default btn-top" data-toggle="dropdown">
+										<span class="icon"><img src="src/images/svg/bag_icon.svg" width="20" /></span>
+										<span class="btnLabel"> My Bag</span>
+									</button>
+									<div class="dropdown-menu">
+
+										<div class="col-lg-12">
+											<div class="row">
+												<p class="text-right">2 item[s] - 225.38 Fr.</p>
+											</div>
+
+											<div class="row">
+												<table class="table menu_cart_table items_table">
+													<tbody>
+														<tr>
+															<td><img src="src/images/cart_thumb.jpg" /></td>
+															<td class="desc">
+																<p class="brand">CONTINENTAL</p>
+																<span class="opis">ContiGo! Front</span>
+															</td>
+															<td class="count">x1</td>
+															<td class="price">91,80 Fr.</td>
+															<td>
+																<a href="#" class="btn-remove">
+																	<img src="src/images/svg/remove_icon.svg" width="12" />
+																</a>
+															</td>
+														</tr>
+														<tr>
+															<td>
+																<img src="src/images/cart_thumb.jpg" />
+															</td>
+															<td>
+																<p class="brand">CONTINENTAL</p>
+																<span class="opis">ContiGo! Front</span>
+															</td>
+															<td>
+																x1
+															</td>
+															<td>
+																<p class="price">91,80 Fr.</p>
+															</td>
+															<td>
+																<a href="#" class="btn-remove">
+																	<img src="src/images/svg/remove_icon.svg" width="12" />
+																</a>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+
+											<div class="row">
+												<table class="table menu_cart_table">
+													<tbody>
+														<tr>
+															<td>Sub Total</td>
+															<td class="text-right">187,94 Fr.</td>
+														</tr>
+														<tr>
+															<td>VAT [20%]</td>
+															<td class="text-right">37,44 Fr.</td>
+														</tr>
+														<tr class="total">
+															<td>Total</td>
+															<td class="text-right">225,38 Fr.</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+
+											<div class="row" style="padding:20px 0;">
+
+												<a href="#" class="view_cart_btn left">
+													<span class="icon"><img src="src/images/svg/bag_icon.svg" width="20" /></span>
+													<span class="btnLabel"> VIEW CART</span>
+												</a>
+
+												<button class="btn btn-default pay_btn right">PAY NOW</button>
+											</div>
+
+										</div>
+
+									</div>
+								</li>
+								<li class="likeBtn dropdown">
+									<button class="btn btn-default btn-top" data-toggle="dropdown">
+										<span class="icon"><img src="src/images/svg/heart_icon.svg" width="18" /></span>
+									</button>
+									<div class="dropdown-menu">
+										<form class="faws_check_form">
+											<a class="link">Check your favorites</a>
+										</form>
+									</div>
+								</li>
+								<li class="userBtn dropdown">
+									<button href="#" class="btn btn-default btn-top" data-toggle="dropdown">
+										<span class="icon"><img src="src/images/svg/user_icon.svg" width="20" /></span>
+										<span class="btnLabel"> My Account</span>
+									</button>
+									<div class="dropdown-menu">
+										<form class="login_form">
+											<div class="form-group">
+												<input type="text" name="email" placeholder="Email" class="form-control" />
+											</div>
+											<div class="form-group clearfix">
+												<input type="password" name="password" placeholder="Password" class="form-control" />
+												<a class="link right">Forgot?</a>
+											</div>
+
+											<button class="btn btn-default submit left">Sign In</button>
+											<a class="btn btn-default btn-flat right">CREATE AN ACCOUNT</a>
+										</form>
+									</div>
+								</li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<header class="page_header">
+
+				<div class="container main_menu_wrapper">
+					<div class="row navbar navbar-default">
+						<div id="main_menu_cont"></div>
+					</div>
+				</div>
+
+
+
+
+				<div class="slider_wrapper">
+
+
+					<div id="slider" class="">
+
+						<div class="owl-carousel carousel carousel-lg visible-lg">
+							<div class="cell">
+								<img src="src/images/slider-1.jpg" />
+								<div class="slider_heading">
+									<h1 class="title">CLASSIC</h1>
+									<div class="subtitle">You know how it is to be the King of Cool.</div>
+									<div>
+										<button class="btn btn-default btn-lg btn-white">Discover</button>
+									</div>
+								</div>
+							</div>
+							<div class="cell">
+								<img src="src/images/slider-2.jpg" />
+								<div class="slider_heading">
+									<h1 class="title">ENDURO</h1>
+									<div class="subtitle">Find your inner wild.</div>
+									<div>
+										<button class="btn btn-default btn-lg btn-white">Discover</button>
+									</div>
+								</div>
+							</div>
+							<div class="cell">
+								<img src="src/images/slider-3.jpg" />
+								<div class="slider_heading" style="top:115px;">
+									<h1 class="title smaller">Rennreifen /<br/>Profil Reifen</h1>
+									<div class="subtitle">Speeeeed junkies’ know-how.</div>
+									<div>
+										<button class="btn btn-default btn-lg btn-white">Discover</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="owl-carousel carousel carousel-sm hidden-lg">
+							<div class="cell">
+								<img src="src/images/slider-mob-1.jpg" />
+								<div class="slider_heading">
+									<h1 class="title">CHOPPER</h1>
+									<div class="subtitle">For all you rebels out there.</div>
+								</div>
+							</div>
+							<div class="cell">
+								<img src="src/images/slider-mob-2.jpg" />
+								<div class="slider_heading">
+									<h1 class="title smaller">CLASSIC</h1>
+									<div class="subtitle">You know how it is to be the King of Cool.</div>
+								</div>
+							</div>
+							<div class="cell">
+								<img src="src/images/slider-mob-3.jpg" />
+								<div class="slider_heading">
+									<h1 class="title">ENDURO</h1>
+									<div class="subtitle">Find your inner wild.</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+
+				</div>
+
+				<div class="filter_wrapper">
+					<div class="container filter_search">
+						<div class="col-1">
+							<div id="filter_cont"></div>
+						</div>
+						<div class="col-2 visible-lg">
+							<div id="search_bar"></div>
+						</div>
+						<div class="col-3 visible-lg">cart</div>
+					</div>
+				</div>
+
+			</header>
+
+		</div>
+
+
+		<section id="banner_1" class="banner_1 explore">
+			<div class="container">
+				<div class="inner_wrapper">
+
+					<div class="block carousel-cell">
+						<img src="src/images/svg/chain.svg" width="175" />
+						<h2>ANTRIEB-KETTENKITS</h2>
+						<button class="btn btn-default">Explore</button>
+					</div>
+
+					<div class="block carousel-cell">
+						<img src="src/images/svg/battery_icon.svg" width="120" />
+						<h2>BATTERIEN</h2>
+						<button class="btn btn-default">Explore</button>
+					</div>
+
+					<div class="block carousel-cell">
+						<img src="src/images/svg/brems.svg" width="100" />
+						<h2>Bremsbeläge LUCAS</h2>
+						<button class="btn btn-default">Explore</button>
+					</div>
+
+				</div>
+			</div>
+		</section>
+
+
+		<section class="banner_2 visible-lg">
+			<div class="container">
+				<div class="inner_wrapper">
+					<div class="cont">
+						<h3>Motorrad Reparaturen <br/>aller Hersteller</h3>
+						<button class="btn btn-default">Sign-up</button>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="new_arrivals"></section>
+
+		<section class="container clearfix" style="padding:0;">
+			<div id="inquiry_form_cont" class="col-lg-6 visible-lg">
+
+			</div>
+			<div id="bestsellers_cont" class="col-lg-6 col-md-12">
+
+			</div>
+		</section>
+
+
+
+
+
+		<section id="banner_2" class="hidden-lg">
+			<div class="container">
+				<div class="half left">
+					<div class="banner banner_left">
+						<h3>Motorrad Reparaturen <br/>aller Hersteller</h3>
+						<button class="btn btn-default">Sign-up</button>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+
+		<section id="banner_3" class="banner_3">
+			<div class="container">
+				<div class="half left">
+					<div class="banner banner_left">
+						<h3>MONTAGE <br/>SERVICE</h3>
+						<p>Wir wechseln ihre Pneus <br/>schnell und zuverlässig</p>
+					</div>
+				</div>
+				<div class="half right">
+					<div class="banner banner_right">
+						<h3>REIFENMONTAGE <br/>TERMIN</h3>
+						<p>Online buchen</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="banner_4" class="banner_4">
+			<div class="container visible-lg">
+
+				<div class="fourth">
+					<div class="banner">
+						<img src="src/images/svg/banner_icon_1.svg" width="100" />
+						<h4>Motorradreifen<br/>Montageservice</h4>
+					</div>
+				</div>
+
+				<div class="fourth">
+					<div class="banner">
+						<img src="src/images/svg/banner_icon_2.svg" width="100" />
+						<h4>Schnelle<br/>Lieferung</h4>
+					</div>
+				</div>
+
+				<div class="fourth">
+					<div class="banner">
+						<img src="src/images/svg/banner_icon_3.svg" width="100" />
+						<h4>Bestpreis<br/>Garantie</h4>
+					</div>
+				</div>
+
+				<div class="fourth">
+					<div class="banner">
+						<img src="src/images/svg/banner_icon_4.svg" width="100" />
+						<h4>Sichere<br/>Zahlung</h4>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="container footer_search">
+				<form id="footer_search_bar" class="search_bar">
+					<input type="text" class="search_field" name="search" placeholder="Find on CC Racing">
+					<button type="submit" class="search_btn"><svg size="30" fill="#CCC" viewBox="0 0 64 64" preserveAspectRatio="xMidYMid meet" style="width: 30px; height: 30px; vertical-align: middle;"><g><path d="M37.5,4C25.1,4,15,14.1,15,26.5c0,5.1,1.7,9.7,4.5,13.5L5,54.4l0,0c-0.6,0.6-1,1.4-1,2.3C4,58.6,5.4,60,7.2,60 c0.9,0,1.7-0.4,2.3-1l0,0L24,44.5c3.8,2.8,8.4,4.5,13.5,4.5C49.9,49,60,38.9,60,26.5C60,14.1,49.9,4,37.5,4z M37.5,42.6 c-8.9,0-16.1-7.2-16.1-16.1c0-8.9,7.2-16.1,16.1-16.1c8.9,0,16.1,7.2,16.1,16.1C53.6,35.4,46.4,42.6,37.5,42.6z"></path></g></svg></button>
+				</form>
+			</div>
+
+		</section>
+
+		<footer id="footer">
+			<div class="container footer_wrapper">
+				<div class="footer_links">
+					<div class="row">
+
+						<div class="col-lg-12 text-center hidden-lg" style="margin-bottom:40px;padding:0;">
+							<img src="src/images/footer_icons.png" />
+						</div>
+
+						<div class="col-lg-3 visible-lg">
+							<h4>Information</h4>
+							<ul>
+								<li><a href="#">About us</a></li>
+								<li><a href="#">FAQ</a></li>
+							</ul>
+						</div>
+						<div class="col-lg-3 visible-lg">
+							<h4>Customer Service</h4>
+							<ul>
+								<li><a href="#">Contact us</a></li>
+								<li><a href="#">Returns</a></li>
+							</ul>
+						</div>
+						<div class="col-lg-3 visible-lg">
+							<h4>My Account</h4>
+							<ul>
+								<li><a href="#">My cart</a></li>
+								<li><a href="#">Favorites</a></li>
+							</ul>
+						</div>
+						<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 kontakt">
+							<h4>Contact us</h4>
+							<p>Dammstrasse 18, 8112 Otelfingen</p>
+							<p>E-mail: office@ccracing.ch</p>
+							<p>Tel: +41(0)44 820 30 20 </p>
+							<p>Mobile: +41(0)76 370 66 65 </p>
+						</div>
+
+						<div class="col-md-6 col-sm-6 col-xs-6 hidden-lg linkovi">
+							<p style="margin-bottom:40px;"><a href="#">Returns</a></p>
+							<p style="margin-bottom:40px;"><a href="#">Favorites</a></p>
+							<p><a href="#">My Cart</a></p>
+						</div>
+
+					</div>
+				</div>
+				<div class="footer_copy">
+					<p>© 2016 CC Racing. All rights reserved.</p>
+				</div>
+			</div>
+		</footer>
+
+
+
+
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="%PUBLIC_URL%/js/flickity.pkgd.min.js"></script>
+		<script src="%PUBLIC_URL%/js/bootstrap.min.js"></script>
+		<script src="%PUBLIC_URL%/js/owl.carousel.min.js"></script>
+		<!-- <script src="dist/home.js"></script>
+		<script src="dist/vendor.js"></script>
+		<script src="src/js/dodatno.js"></script> -->
+		<script>
+		$(document).ready(function() {
+			// var HomeSlider = new Flickity('#slider', {
+			//    prevNextButtons: false
+			// });
+			var Banner1Slider = new Flickity('#banner_1 .inner_wrapper', {
+				prevNextButtons: false,
+				watchCSS: true
+			});
+			$("#slider .carousel-lg").owlCarousel({
+				items: 1,
+				loop: true
+			});
+
+			$("#slider .carousel-sm").owlCarousel({
+				items: 1,
+				loop: true
+			});
+		});
+		</script>
+
+	</body>
+</html>
