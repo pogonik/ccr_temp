@@ -6,7 +6,11 @@ import { MenuArrowIcon, ReturnIcon, FAQIcon, ContactIcon, Caret2 } from '../../s
 
 import MenuDropdown from './MenuDropdownMob';
 
+import { Dropdown1, Dropdown2, Dropdown3, Dropdown4 } from './Dropdowns';
+
 import anime from 'animejs';
+
+const dropDowns = [<Dropdown1 />, <Dropdown2 />, <Dropdown3 />, <Dropdown4 />];
 
 class MainMenuMob extends Component {
 
@@ -16,52 +20,70 @@ class MainMenuMob extends Component {
 	};
 
 	closeDropdown() {
-
-		//$('#mob_dropdown_wrapper').velocity({ left:window.innerWidth }, {
-		// document.querySelector('#mob_dropdown_wrapper').velocity({ left:window.innerWidth }, {
-		// 	easing: 'easeOut',
-		// 	duration: 300,
-		// 	complete: el => {
-		// 		//$('#main_menu .nav > li.active').removeClass('active');
-		// 		document.querySelector('#main_menu .nav > li.active').classList.remove('active');
-		// 		this.setState({ dropdownOpen: false, activeItem: 0 });
-		// 	}
-		// });
-
+		
 		anime({
 			targets: '#mob_dropdown_wrapper',
-			left:window.innerWidth,
-			easing: 'linear',
-			duration: 300,
+			left: window.innerWidth,
+			easing: [.17,.82,.64,1],
+			duration: 350,
 			complete: el => {
-				document.querySelector('#main_menu .nav > li.active').classList.remove('active');
+				if(document.querySelector('#main_menu .nav > li.active'))
+					document.querySelector('#main_menu .nav > li.active').classList.remove('active');
 				this.setState({ dropdownOpen: false, activeItem: 0 });
 			}
 		});
 	}
 
+	// openDropdown(i, ref) {
+
+	// 	document.querySelector("#main_menu .nav li."+ref).classList.add('active');
+	// 	document.getElementById('mob_dropdown_wrapper').classList.add('open');
+	// 	this.setState({ dropdownOpen: true, activeItem: i });
+	// 	animejs({
+	// 		targets: '#mob_dropdown_wrapper',
+	// 		left: 0,
+	// 		duration: 350,
+	// 		easing: [.17,.82,.64,1],
+	// 		complete: () => {
+				
+	// 		}
+	// 	});
+	// };
+
 	handleClick = (i, ref) => {
-
-		//$('#main_menu .nav > li.active').removeClass('active');
-		if(document.querySelector('#main_menu .nav > li.active'))
-			document.querySelector('#main_menu .nav > li.active').classList.remove('active');
-
 		if(this.state.activeItem === i) {
 			this.closeDropdown();
 		} else {
-			//$("#main_menu .nav li."+ref).addClass('active');
-			document.querySelector("#main_menu .nav li."+ref).classList.add('active');
-
 			anime({
 				targets: '#mob_dropdown_wrapper',
-				left:window.innerWidth,
-				easing: 'linear',
-				duration: 300,
+				left: 0,
+				easing: [.17,.82,.64,1],
+				duration: 350,
 				complete: el => {
+					document.querySelector("#main_menu .nav li."+ref).classList.add('active');
 					this.setState({ activeItem: i, dropdownOpen: true });
 				}
 			});
+			// anime({
+			// 	targets: '#mob_dropdown_wrapper',
+			// 	left: 0,
+			// 	easing: [.17,.82,.64,1],
+			// 	duration: 500,
+			// 	complete: el => {
+			// 		document.querySelector("#main_menu .nav li."+ref).classList.add('active');
+			// 		this.setState({ activeItem: i, dropdownOpen: true });
+			// 	}
+			// });
 		}
+		// this.closeDropdown();
+		// if(this.state.activeItem !== i)
+		// 	this.openDropdown(i, ref);
+		// else
+		// 	this.closeDropdown(false, 0);
+		// if(this.state.activeItem !== i)
+		// 	this.closeDropdown(true, i, this.openDropdown.bind(null, i, ref));
+		// else
+		// 	this.closeDropdown(false, 0);
 	};
 
 	slideMenu = (e) => {
@@ -78,11 +100,6 @@ class MainMenuMob extends Component {
 		document.querySelectorAll(".active").classList.remove('active');
 		document.querySelector("#"+val).classList.toggle('open');
 		document.querySelector("a."+val).classList.toggle('active');
-
-		// $("open").removeClass('open');
-		// $("active").removeClass('active');
-		// $("#"+val).toggleClass('open');
-		// $("a."+val).toggleClass('active');
 	};
 
 	render() {
@@ -115,7 +132,7 @@ class MainMenuMob extends Component {
 
 			<div id="main_menu" className="main_menu_mob" ref="main_menu">
 
-				<MenuDropdown id="mob_dropdown_wrapper" ref="mob_dropdown_wrapper" open={this.state.dropdownOpen} active={this.state.activeItem} close={() => { this.closeDropdown() }} />
+				
 
 				<Scrollbars style={{height:visina}} id="navigacija">
 					<ul className="nav navbar-nav">
@@ -213,6 +230,16 @@ class MainMenuMob extends Component {
 						</ul>
 					</div>
 				</Scrollbars>
+
+
+				<MenuDropdown id="mob_dropdown_wrapper" 
+					ref="mob_dropdown_wrapper" 
+					open={this.state.dropdownOpen} 
+					active={this.state.activeItem} 
+					close={() => { this.closeDropdown() }}>
+					{dropDowns[this.state.activeItem - 1]}
+				</MenuDropdown>
+
 			</div>
 		);
 	}

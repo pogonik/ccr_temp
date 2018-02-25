@@ -18,7 +18,7 @@ export default class Product extends Component {
    }
 
    addToWishList = () => {
-      wishlist.add(this.props.data.id);
+      //wishlist.add(this.props.data.id);
    };
 
    markers = ['', <span className="new_icon">NEU</span>, <span className="best_icon"></span>];
@@ -29,7 +29,8 @@ export default class Product extends Component {
 
       let is_guma = data.cat_parent === '49' ? true : false;
 
-      let opis = <p>{_.truncate(data.desc, {'length': 50,'omission': '...'})}</p>;
+      // let opis = <p>{_.truncate(data.desc, {'length': 50,'omission': '...'})}</p>;
+      let opis = <p>{data.desc}</p>;
 
       if(is_guma) {
          let breite = data.atts.breite ? data.atts.breite : '';

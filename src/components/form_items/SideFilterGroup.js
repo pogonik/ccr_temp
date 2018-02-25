@@ -68,7 +68,7 @@ class SideFilterGroup extends Component {
 	};
 
 	buildCheckboxes() {
-		var checkboxes = _.map(this.state.data, (val,key) => {
+		var checkboxes = this.state.data.map((val,key) => {
 
 			if(this.props.activeItems === null || this.props.activeItems.length < 1) {
 				return (<CheckBox label={val.name} active={true}
@@ -101,7 +101,12 @@ class SideFilterGroup extends Component {
 		let checkBoxes = this.buildCheckboxes();
 		let content = checkBoxes;
 
-		if(_.size(this.state.data) > 7) {
+		// if(_.size(this.state.data) > 7) {
+		// 	content = <Scrollbars autoHide autoHeight autoHeightMin={200} autoHeightMax={270}>
+		// 		{checkBoxes}
+		// 	</Scrollbars>;
+		// }
+		if(this.state.data.length > 7) {
 			content = <Scrollbars autoHide autoHeight autoHeightMin={200} autoHeightMax={270}>
 				{checkBoxes}
 			</Scrollbars>;

@@ -1,27 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-class SvgIcon extends Component {
+const SvgIcon = props => {
 
-	render() {
+	let styles = Object.assign({
+		fill: "currentColor",
+		verticalAlign: "middle",
+		width: props.size + 'px',
+		height: props.size + 'px'
+	}, props.style);
 
-		let styles = Object.assign({
-			fill: "currentColor",
-			verticalAlign: "middle",
-			width: this.props.size + 'px',
-			height: this.props.size + 'px'
-		}, this.props.style);
-
-		return (
-			<svg {...this.props} preserveAspectRatio="xMidYMid meet" style={styles}>
-				{this.props.children}
-			</svg>
-		);
-	}
+	return (
+		<svg {...props} preserveAspectRatio="xMidYMid meet" style={styles}>
+			{props.children}
+		</svg>
+	);
 }
 
 SvgIcon.defaultProps = {
 	viewBox: "0 0 24 24",
 	size: '24'
+};
+
+SvgIcon.propTypes = {
+	viewBox: PropTypes.string,
+	size: PropTypes.string
 };
 
 export default SvgIcon;

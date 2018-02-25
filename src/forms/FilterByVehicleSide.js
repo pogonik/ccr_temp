@@ -5,21 +5,19 @@ import Spinner from '../components/Spinner';
 
 import { basePath, baseUrl, baseApiUrl, checkStatus, returnJSON, getURLQuery, serialize, serialize2 } from '../lib/constants';
 
-let options = {
-   51: 'batterie',
-   52: 'kettenkits',
-   53: 'bremsbelaege'
-};
+// let options = {
+//    51: 'batterie',
+//    52: 'kettenkits',
+//    53: 'bremsbelaege'
+// };
 
-let cat_id = getURLQuery('typs') ? getURLQuery('typs') : document.getElementById("#side_filter").getAttribute('data-cat');
+let cat_id = getURLQuery('typs') ? getURLQuery('typs') : document.getElementById("side_filter").getAttribute('data-cat');
+
+cat_id = 53;
+
+let type = getURLQuery('type') ? getURLQuery('type') : 'kettenkits';
 
 export default class FilterByVehicleSide extends Component {
-
-   // static propTypes = {
-   // };
-
-   // static defaultProps = {
-   // };
 
    state = {
       selectOptions: [],
@@ -38,16 +36,12 @@ export default class FilterByVehicleSide extends Component {
       disabled: [true, true, true, true, true, true]
    };
 
-   // constructor(props) {
-   //    super(props);
-   // }
-
    componentWillMount() {
       this.getMarkaData();
    }
 
    getMarkaData = () => {
-      var url = baseApiUrl + 'filter/get_marka_data';
+      var url = baseApiUrl + 'filter_teilen/get_marka_data&type='+type;
       fetch(url)
          .then(checkStatus)
          .then(returnJSON)
@@ -59,9 +53,9 @@ export default class FilterByVehicleSide extends Component {
    getModelData() {
 
       let params = serialize(document.getElementById('vehicle_form_side'));
-      params = decodeURIComponent(params);
+      params = decodeURIComponent(params+'&type='+type);
       // document.getElementById('vehicle_form_wrapper').classList.add('loading');
-      fetch(baseApiUrl + 'filter/get_model_data&'+params)
+      fetch(baseApiUrl + 'filter_teilen/get_model_data&'+params)
          .then(checkStatus)
          .then(returnJSON)
          .then(data => {
@@ -97,14 +91,11 @@ export default class FilterByVehicleSide extends Component {
          Object.assign(query, { [name]: val.value });
       }
 
-      if(name === 'year' && (parseInt(cat_id) === 51 || parseInt(cat_id) === 52)) {
-      //if(name === 'year') {
+      if(name === 'year' && type !== 'bremsbelage') {
          if(val === null) {
             disabled[5] = true;
-            $("form#vehicle_form_side input[name=antrieb]").remove();
          } else {
             disabled[5] = false;
-            $("form#vehicle_form_side").append('<input type="hidden" name="antrieb" value="'+options[cat_id]+'" />');
          }
       }
 
@@ -115,7 +106,8 @@ export default class FilterByVehicleSide extends Component {
       e.preventDefault();
       let params = serialize2(this.state.atts);
       params = params.replace('&', '%26');
-      window.location = baseUrl+'filter?'+params+'&parent=65,76,77&typs='+cat_id;
+      window.location = baseUrl+'filter?'+params+'&type='+type;
+      // window.location = baseUrl+'filter?'+params+'&parent=65,76,77&typs='+cat_id;
    };
 
    render() {
@@ -124,7 +116,7 @@ export default class FilterByVehicleSide extends Component {
 
       let lastSelect = '';
 
-      if(cat_id === 53) {
+      if(type === 'bremsbelage') {
          lastSelect = (
             <div className="row">
                <Selekt

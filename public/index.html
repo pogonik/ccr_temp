@@ -162,11 +162,37 @@
 
 			<header class="page_header">
 
-				<div class="container main_menu_wrapper">
+				<!-- <div class="container main_menu_wrapper">
 					<div class="row navbar navbar-default">
 						<div id="main_menu_cont"></div>
 					</div>
-				</div>
+				</div> -->
+
+
+
+				<div class="container main_menu_wrapper">
+               <div class="row navbar navbar-default">
+
+                  <div class="navbar-header">
+                     <a href="#" class="logo">
+                        <img src="http://localhost/ccr/catalog/view/theme/ccr/images/logo.png" class="hidden-xs hidden-sm" />
+                        <img src="http://localhost/ccr/catalog/view/theme/ccr/images/svg/logo_mobile.svg" class="visible-xs visible-sm" />
+                     </a>
+                     <a href="#" class="toggleMenu navbar-toggle">
+                        <svg viewBox="0 0 64 64" preserveAspectRatio="xMidYMid meet" width="64" height="64">
+                           <g>
+                              <path d="M7,17h50v6H7V17z"/>
+                           	<path d="M7,29h50v6H7V29z"/>
+                           	<path d="M7,41h50v6H7V41z"/>
+                           </g>
+                        </svg>
+                     </a>
+                  </div>
+
+                  <div id="main_menu_cont"></div>
+
+               </div>
+            </div>
 
 
 
@@ -255,6 +281,11 @@
 		</div>
 
 
+		<div class="container" id="content_wrapper">
+			<div id="rezultat"></div>
+		</div>
+
+
 		<section id="banner_1" class="banner_1 explore">
 			<div class="container">
 				<div class="inner_wrapper">
@@ -280,6 +311,11 @@
 				</div>
 			</div>
 		</section>
+
+
+		<div id="side_filter" data-cat="53">
+			<div class="clearfix"></div>
+		</div>
 
 
 		<section class="banner_2 visible-lg">
@@ -461,6 +497,14 @@
 				items: 1,
 				loop: true
 			});
+
+			$(".page_header .navbar-header .navbar-toggle").click(function(e) {
+				e.preventDefault();
+		      // $("#main_menu").toggleClass('open');
+				$("#main_menu.main_menu_mob").toggleClass('open');
+				$("body").toggleClass('noscroll');
+			});
+			
 		});
 		</script>
 

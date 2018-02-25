@@ -32,7 +32,7 @@ export class Dropdown1 extends Component {
 		loading: true
 	};
 
-	componentWillMount() {
+	componentDidMount() {
 		this.getData();
 	}
 
@@ -104,7 +104,7 @@ export class Dropdown1 extends Component {
 	};
 
 	render() {
-		let spinner = this.state.loading ? <Spinner /> : '';
+		let spinner = this.state.loading ? <Spinner /> : null;
 		let klasa = this.state.loading ? 'clearfix loading_form' : 'clearfix';
 
 		return (
@@ -158,7 +158,7 @@ export class Dropdown2 extends Component {
 		loading: true
 	};
 
-	componentWillMount() {
+	componentDidMount() {
 		this.getData();
 	}
 

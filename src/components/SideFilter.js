@@ -3,7 +3,9 @@ import React, { PropTypes, Component } from 'react';
 import SideFilterGroup from './form_items/SideFilterGroup';
 import FilterByVehicleSide from '../forms/FilterByVehicleSide';
 
-import { baseUrl, baseApiUrl, getURLQuery, getPathname} from '../lib/constants';
+import { baseUrl, baseApiUrl, getURLQuery, getPathname, syncReq, checkStatus, returnJSON } from '../lib/constants';
+
+import axios from 'axios';
 
 export default class SideFilter extends Component {
 
@@ -21,7 +23,7 @@ export default class SideFilter extends Component {
       super(props);
    }
 
-   componentWillMount() {
+   componentDidMount() {
 
       if(getURLQuery('route')) {
 
@@ -35,10 +37,8 @@ export default class SideFilter extends Component {
             });
          } else {
 
-            let parent = $.ajax({
-               url: baseApiUrl+'categories/get_parent&path='+getURLQuery('path'),
-               async: false
-            });
+            let parent = syncReq(baseApiUrl+'categories/get_parent&path='+getURLQuery('path'));
+
             parent = parent.responseJSON === '0' ? '' : parent.responseJSON;
             this.setState({
                source: 'brands/by_cat&path='+getURLQuery('path'),
@@ -54,37 +54,41 @@ export default class SideFilter extends Component {
 
          let originURL = getPathname();
 
-         let req = $.ajax({
-            url: baseApiUrl+'filter/get_origin_url&keyword='+originURL,
-            async: false
+         // let req = syncReq(baseApiUrl+'filter/get_origin_url&keyword='+originURL);
+         // let path = req.responseJSON.split("=");
+
+
+         fetch(baseApiUrl+'filter/get_origin_url&keyword='+originURL)
+         .then(checkStatus)
+         .then(returnJSON)
+         .then(data => {
+            let path = data.split("=");
+
+
+            if(path[0] === 'category_id') {
+
+               let parent = syncReq(baseApiUrl+'categories/get_parent&path='+path[1]);
+               parent = parent.responseJSON === '0' ? '' : parent.responseJSON;
+               this.setState({
+                  source: 'brands/by_cat&path='+path[1],
+                  title: 'Marken',
+                  valName: 'brands',
+                  root: 'typs',
+                  rootVal: path[1],
+                  parent: parent.id
+               });
+            } else {
+               this.setState({
+                  source: 'categories/by_brand&manufacturer_id='+path[1],
+                  title: 'Typ',
+                  valName: 'typs',
+                  root: 'brands',
+                  rootVal: path[1]
+               });
+            }
          });
 
-         let path = req.responseJSON.split("=");
-
-         if(path[0] === 'category_id') {
-
-            let parent = $.ajax({
-               url: baseApiUrl+'categories/get_parent&path='+path[1],
-               async: false
-            });
-            parent = parent.responseJSON === '0' ? '' : parent.responseJSON;
-            this.setState({
-               source: 'brands/by_cat&path='+path[1],
-               title: 'Marken',
-               valName: 'brands',
-               root: 'typs',
-               rootVal: path[1],
-               parent: parent.id
-            });
-         } else {
-            this.setState({
-               source: 'categories/by_brand&manufacturer_id='+path[1],
-               title: 'Typ',
-               valName: 'typs',
-               root: 'brands',
-               rootVal: path[1]
-            });
-         }
+         
       }
    }
 
@@ -93,10 +97,7 @@ export default class SideFilter extends Component {
       let { valName, root, rootVal, parent } = this.state;
 
       if(parent === '') {
-         let root_cat = $.ajax({
-            url: baseApiUrl+'categories/get_parent&path='+val[0],
-            async: false
-         });
+         let root_cat = syncReq(baseApiUrl+'categories/get_parent&path='+val[0]);
          parent = root_cat.responseJSON.id === '0' ? '' : root_cat.responseJSON.id;
       }
 
@@ -106,7 +107,7 @@ export default class SideFilter extends Component {
 
    render() {
 
-      let cat_id = $("#side_filter").data('cat');
+      let cat_id = document.getElementById("side_filter").getAttribute('data-cat');
       let side = '';
 
       if([51,52,53].indexOf(cat_id) !== -1) {

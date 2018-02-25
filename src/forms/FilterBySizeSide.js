@@ -1,9 +1,9 @@
 import React, { PropTypes, Component } from 'react';
-import { Router, Route, browserHistory, withRouter } from 'react-router';
+//import { Router, Route, browserHistory, withRouter } from 'react-router';
 
 import Select from 'react-select';
 import { Tire } from '../svg/Icons';
-import { basePath, baseUrl, baseApiUrl, checkStatus, returnJSON } from '../lib/constants';
+import { basePath, baseUrl, baseApiUrl, checkStatus, returnJSON, serialize2 } from '../lib/constants';
 
 export default class FilterBySizeSide extends Component {
 
@@ -26,7 +26,7 @@ export default class FilterBySizeSide extends Component {
    }
 
    componentWillMount() {
-      _.map(this.props.query.atts, (val,key) => {
+      this.props.query.atts.map((val,key) => {
          this.setState({ [key]:val });
       });
       this.setState({ sizes:this.props.query.atts });
@@ -49,17 +49,20 @@ export default class FilterBySizeSide extends Component {
 
    handleSelectChange = (key, val) => {
       let atts = this.props.query.atts;
-      let params = _.omit(this.props.query, 'atts');
+      // let params = _.omit(this.props.query, 'atts');
+      let params = this.props.query;
+      delete params.atts;
 
       if(val === null) {
-         atts = _.omit(atts, [key]);
+         //atts = _.omit(atts, [key]);
+         delete atts[key];
          this.setState({ [key]: null });
       } else {
          atts[key] = val.value;
          this.setState({ [key]: val.value });
       }
       params['atts'] = atts;
-      browserHistory.push(basePath+'filter?'+decodeURIComponent($.param(params)));
+      //browserHistory.push(basePath+'filter?'+decodeURIComponent(serialize2(params)));
    }
 
    render() {

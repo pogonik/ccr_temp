@@ -4,7 +4,12 @@ import { baseUrl } from '../../lib/constants';
 
 //import { MenuArrowIcon, MenuIcon, ReturnIcon, FAQIcon, ContactIcon, Caret2 } from '../../svg/Icons';
 
+import { Dropdown1, Dropdown2, Dropdown3, Dropdown4 } from './Dropdowns';
+
 import MenuDropdown from './MenuDropdown';
+
+
+const dropDowns = [<Dropdown1 />, <Dropdown2 />, <Dropdown3 />, <Dropdown4 />];
 
 class MainMenuLG extends Component {
 
@@ -96,7 +101,9 @@ class MainMenuLG extends Component {
 						</li>
 					</ul>
 				</span>
-				<MenuDropdown open={this.state.dropdownOpen} active={this.state.activeItem} />
+				<MenuDropdown open={this.state.dropdownOpen} active={this.state.activeItem}>
+					{dropDowns[this.state.activeItem - 1]}
+				</MenuDropdown>
 			</div>
 		);
 	}

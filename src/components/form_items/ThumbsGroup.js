@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import Thumb from './Thumb2';
+import Thumb from './Thumb';
 
 import { baseUrl } from '../../lib/constants';
 
@@ -23,22 +24,53 @@ class ThumbsGroup extends Component {
 		let thumbs = items.map((v,k) => {
 
 			if(this.props.activeItems === null) {
-				let check = false;
+				let checked = false;
 				if(this.state.value === v.id) {
-					check = true;
+					checked = true;
 				}
-				return <Thumb image={baseUrl+'image/'+v.image} checked={check} label={v.name} value={v.id} key={k} onSelect={this.setSelected} active={true} />
+				return (
+					<Thumb key={k}
+						image={baseUrl+'image/'+v.image} 
+						checked={checked} 
+						label={v.name} 
+						value={v.id} 
+						onSelect={this.setSelected} 
+						active={true} />
+					);
 			} else {
 				let active = this.props.activeItems.indexOf(v.id) !== -1 ? true : false;
-				let check = false;
+				let checked = false;
 				if(this.state.value === v.id) {
-					check = true;
+					checked = true;
 				}
-				return <Thumb image={baseUrl+'image/'+v.image} checked={check} label={v.name} value={v.id} key={k} onSelect={this.setSelected} active={active} />
+				return (
+					<Thumb key={k} 
+						image={baseUrl+'image/'+v.image} 
+						checked={checked} label={v.name} 
+						value={v.id} 
+						onSelect={this.setSelected} 
+						active={active} />
+					);
 			}
 
 		});
 		return thumbs;
+	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		if(this.state.value !== nextState.value)
+			return true;
+
+		if(this.props.items1 !== nextProps.items1)
+			return true;
+
+		if(this.props.items2 !== nextProps.items2)
+			return true;
+
+		if(this.props.activeItems !== nextProps.activeItems)
+			return true;
+
+		return false;
 	}
 
 	render() {
@@ -70,9 +102,18 @@ class ThumbsGroup extends Component {
 }
 
 ThumbsGroup.defaultProps = {
+	activeItems: [],
 	items1: [],
 	items2: [],
 	valName: 'typs'
+};
+
+ThumbsGroup.propTypes = {
+	activeItems: PropTypes.array,
+	items1: PropTypes.array,
+	items2: PropTypes.array,
+	onChange: PropTypes.func,
+	valName: PropTypes.string
 };
 
 export default ThumbsGroup;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Thumb from './Thumb';
 
@@ -32,6 +33,7 @@ class ThumbsGroupMulti extends Component {
 			if(this.props.activeItems === null) {
 				return (<Thumb key={key}
 							active={true}
+							checked={this.state.value.includes(val.id) ? true : false}
 							label={val.name}
 							value={val.id}
 							image={baseUrl+'image/'+val.image}
@@ -40,6 +42,7 @@ class ThumbsGroupMulti extends Component {
 				let active = this.props.activeItems.indexOf(val.id) !== -1 ? true : false;
 				return (<Thumb key={key}
 							active={active}
+							checked={this.state.value.includes(val.id) ? true : false}
 							label={val.name}
 							value={val.id}
 							image={baseUrl+'image/'+val.image}
@@ -50,7 +53,21 @@ class ThumbsGroupMulti extends Component {
 		return thumbs;
 	}
 
+	shouldComponentUpdate(nextProps, nextState) {
+		if(this.state.value !== nextState.value)
+			return true;
+
+		if(this.props.items !== nextProps.items)
+			return true;
+
+		if(this.props.activeItems !== nextProps.activeItems)
+			return true;
+
+		return false;
+	}
+
 	render() {
+
 		let val = this.state.value.join("-");
 
 		return (
@@ -63,8 +80,16 @@ class ThumbsGroupMulti extends Component {
 }
 
 ThumbsGroupMulti.defaultProps = {
+	activeItems: [],
 	items: [],
 	valName: 'typs'
+};
+
+ThumbsGroupMulti.propTypes = {
+	activeItems: PropTypes.array,
+	items: PropTypes.array,
+	onChange: PropTypes.func,
+	valName: PropTypes.string
 };
 
 export default ThumbsGroupMulti;

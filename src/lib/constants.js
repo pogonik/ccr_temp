@@ -4,10 +4,12 @@ require('es6-promise').polyfill();
 // export const basePath = document.querySelector("meta[name=base_path]").getAttribute("content");
 
 // export const baseUrl = 'http://dev.motorradpneuhaus.ch/';
-export const baseUrl = 'http://localhost/ccr/';
+//export const baseUrl = 'http://localhost/ccr/';
+export const baseUrl = 'http://localhost:3000/';
 export const basePath = '/';
 
-export const baseApiUrl = baseUrl+'index.php?route=api/';
+export const baseApiUrl = 'http://localhost/ccr/index.php?route=api/';
+// export const baseApiUrl = baseUrl+'index.php?route=api/';
 // export const baseApiUrl = baseUrl+'api/';
 
 export const checkStatus = (response) => {
@@ -129,6 +131,20 @@ export function serialize2(obj) {
 		str += key + "=" + encodeURIComponent(obj[key]);
 	}
 	return str;
+}
+
+
+export function syncReq(url) {
+	const xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(e) {
+		if (xhr.readyState === 4 && xhr.status === 200) {
+			return JSON.parse(xhr.responseText);
+		} else {
+			return 'NEMA!!!';
+		}
+	}
+	xhr.open('GET', url, false);
+	xhr.send();
 }
 
 

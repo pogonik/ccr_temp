@@ -23,7 +23,7 @@ export default class ReifenForm extends Component {
 		loaded: false
 	};
 
-	componentWillMount() {
+	componentDidMount() {
 		this.getSelectData();
 	}
 

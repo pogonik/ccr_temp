@@ -3,9 +3,10 @@ import React, { PropTypes, Component } from 'react';
 import Selekt from 'react-select';
 import Spinner from '../components/Spinner';
 
-import { basePath, baseUrl, baseApiUrl, checkStatus, returnJSON, serialize, serialize2 } from '../lib/constants';
+import { basePath, baseUrl, baseApiUrl, checkStatus, returnJSON, serialize, serialize2, syncReq } from '../lib/constants';
 
 let options = {};
+
 
 export default class FilterByVehicle extends Component {
 

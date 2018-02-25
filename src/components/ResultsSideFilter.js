@@ -4,9 +4,9 @@ import SideFilterGroup from './form_items/SideFilterGroup';
 import FilterBySizeSide from '../forms/FilterBySizeSide';
 import FilterByVehicleSide from '../forms/FilterByVehicleSide';
 
-import { Router, Route, Link, browserHistory } from 'react-router';
+//import { Router, Route, Link, browserHistory } from 'react-router';
 
-import { fixURLQuery, basePath, baseUrl, baseApiUrl, checkStatus, returnJSON } from '../lib/constants';
+import { fixURLQuery, basePath, baseUrl, baseApiUrl, checkStatus, returnJSON, serialize2 } from '../lib/constants';
 
 export default class ResultsSideFilter extends Component {
 
@@ -33,14 +33,14 @@ export default class ResultsSideFilter extends Component {
    }
 
    componentWillMount() {
-      _.map(['brands','typs','atts'], (val) => {
+      ['brands','typs','atts'].map((val) => {
          this.getAttributes(val,this.props.search.replace('?', '&'));
       });
    }
 
    componentWillReceiveProps(newProps) {
       if(newProps.query !== this.props.query) {
-         _.map(['brands','typs','atts'], (val) => {
+         ['brands','typs','atts'].map((val) => {
             this.getAttributes(val,newProps.search.replace('?', '&'));
          });
       }
@@ -61,7 +61,8 @@ export default class ResultsSideFilter extends Component {
       let query = this.props.query;
 
       if(val.length === 0) {
-         query = _.omit(query, [key]);
+         //query = _.omit(query, [key]);
+         delete query[key];
       }
       else if(val.length > 1) {
          query[key] = val.join("-");
@@ -69,11 +70,11 @@ export default class ResultsSideFilter extends Component {
          query[key] = val[0];
       }
       this.setState({ [key]:val });
-      browserHistory.push(basePath+'filter?' + decodeURIComponent($.param(query)));
+      //browserHistory.push(basePath+'filter?' + decodeURIComponent(serialize2(query)));
    }
 
    scrollToTop = () => {
-      $("body").animate({ scrollTop:400 });
+      //document.querySelector("body").animate({ scrollTop:400 });
    }
 
    render() {

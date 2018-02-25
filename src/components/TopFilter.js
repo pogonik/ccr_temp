@@ -6,6 +6,8 @@ import TopFilterInner from './TopFilterInner';
 
 import { Caret, LupaIcon1 } from '../svg/Icons';
 
+import axios from 'axios';
+
 export default class TopFilter extends Component {
 
 	state = {
@@ -37,6 +39,7 @@ export default class TopFilter extends Component {
 	};
 
 	render() {
+		
 		return (
 			<div id="filter" className="">
 				<button className="btn btn-default btn-lg btn-block btn-filter" onClick={this.toggleFilter}>
