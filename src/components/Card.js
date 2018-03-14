@@ -1,25 +1,12 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { baseUrl, checkStatus, returnJSON } from '../lib/constants';
 import { Heart2Icon } from '../svg/Icons';
 
 import Stars from './Stars';
 
-export default class Card extends Component {
-
-   static defaultProps = {
-      price: '',
-      klase: '',
-      marker: 0,
-      url: '',
-      brand_url: '',
-      cat_name: '',
-      cat_url: ''
-   };
-
-   constructor(props) {
-      super(props);
-   }
+class Card extends Component {
 
    markers = ['', <span className="new_icon">NEU</span>, <span className="best_icon"></span>];
 
@@ -75,3 +62,25 @@ export default class Card extends Component {
       );
    }
 }
+
+Card.propTypes = {
+   price: PropTypes.string,
+   klase: PropTypes.string,
+   marker: PropTypes.number,
+   url: PropTypes.string,
+   brand_url: PropTypes.string,
+   cat_name: PropTypes.string,
+   cat_url: PropTypes.string
+};
+
+Card.defaultProps = {
+   price: '',
+   klase: '',
+   marker: 0,
+   url: '',
+   brand_url: '',
+   cat_name: '',
+   cat_url: ''
+};
+
+export default Card;

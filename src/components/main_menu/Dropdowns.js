@@ -294,8 +294,13 @@ export class Dropdown3 extends Component {
 
 		let errorFields = [];
 
-		if(document.querySelectorAll('#inquiry_form .error'))
-			document.querySelectorAll('#inquiry_form .error').classList.remove('error');
+		if(document.querySelector('#inquiry_form .error')) {
+			var errorObjs = document.querySelectorAll('#inquiry_form .error');
+
+			errorObjs.forEach(err => {
+				err.classList.remove('error');
+			});
+		}
 
 		let states = ['breite', 'hoehe', 'zoll', 'brands'];
 		if(this.state.slide === 2) {
@@ -305,7 +310,7 @@ export class Dropdown3 extends Component {
 		let valid = true;
 		let mail = true;
 
-		states.map(key => {
+		states.map((val,key) => {
 			if(this.state[key] === null || this.state[key] === '') {
 				errorFields.push(key);
 				document.querySelector('#size_form .'+key).classList.add('error');

@@ -1,21 +1,12 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { baseUrl } from '../lib/constants';
 import { Heart2Icon } from '../svg/Icons';
 
 import Stars from './Stars';
 
-export default class Product extends Component {
-
-   static defaultProps = {
-      price: '',
-      klase: '',
-      marker: 0
-   };
-
-   constructor(props) {
-      super(props);
-   }
+class Product extends Component {
 
    addToWishList = () => {
       //wishlist.add(this.props.data.id);
@@ -99,3 +90,17 @@ export default class Product extends Component {
       );
    }
 }
+
+Product.propTypes = {
+   price: PropTypes.string,
+   klase: PropTypes.string,
+   marker: PropTypes.number
+};
+
+Product.defaultProps = {
+   price: '',
+   klase: '',
+   marker: 0
+};
+
+export default Product;

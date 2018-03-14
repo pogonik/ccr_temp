@@ -1,39 +1,9 @@
 import React, { PropTypes, Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { baseUrl, checkStatus, returnJSON } from '../lib/constants';
 
-export default class RelatedProduct extends Component {
-
-   static propTypes = {
-      image: PropTypes.string,
-      price: PropTypes.string,
-      klase: PropTypes.string,
-      marker: PropTypes.number,
-      url: PropTypes.string,
-      brand_url: PropTypes.string,
-      cat_name: PropTypes.string,
-      cat_url: PropTypes.string,
-      quantity: PropTypes.number,
-   };
-
-   static defaultProps = {
-      image: baseUrl+'image/no_image.png',
-      price: '',
-      klase: '',
-      marker: 0,
-      url: '',
-      brand_url: '',
-      cat_name: '',
-      cat_url: '',
-      quantity: 1
-   };
-
-   state = {
-   };
-
-   constructor(props) {
-      super(props);
-   }
+class RelatedProduct extends Component {
 
    render() {
       let { image } = this.props;
@@ -54,3 +24,29 @@ export default class RelatedProduct extends Component {
       );
    }
 }
+
+RelatedProduct.propTypes = {
+   image: PropTypes.string,
+   price: PropTypes.string,
+   klase: PropTypes.string,
+   marker: PropTypes.number,
+   url: PropTypes.string,
+   brand_url: PropTypes.string,
+   cat_name: PropTypes.string,
+   cat_url: PropTypes.string,
+   quantity: PropTypes.number,
+};
+
+RelatedProduct.defaultProps = {
+   image: baseUrl+'image/no_image.png',
+   price: '',
+   klase: '',
+   marker: 0,
+   url: '',
+   brand_url: '',
+   cat_name: '',
+   cat_url: '',
+   quantity: 1
+};
+
+export default RelatedProduct;

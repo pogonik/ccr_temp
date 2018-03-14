@@ -5,7 +5,7 @@ require('es6-promise').polyfill();
 
 // export const baseUrl = 'http://dev.motorradpneuhaus.ch/';
 //export const baseUrl = 'http://localhost/ccr/';
-export const baseUrl = 'http://localhost:3000/';
+export const baseUrl = 'http://localhost/ccr/';
 export const basePath = '/';
 
 export const baseApiUrl = 'http://localhost/ccr/index.php?route=api/';
