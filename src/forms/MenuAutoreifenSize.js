@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 
-// import Select from 'react-select';
-
 import { Tire } from '../svg/Icons';
-
-import { baseApiUrl, checkStatus, returnJSON } from '../lib/constants';
 
 export default class MenuFilterBySize extends Component {
 
@@ -13,10 +9,6 @@ export default class MenuFilterBySize extends Component {
 		hoehe: '',
 		zoll: ''
 	};
-
-	constructor(props) {
-		super(props);
-	}
 
 	resetForm() {
 		this.setState({

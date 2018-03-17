@@ -12,27 +12,41 @@ class ControllerApiFilterTeilen extends Controller {
 	// 	} else {
 	// 		$this->type = return false;
 	// 	}
+	// 	$this->type = $get['type'];
 	// }
 	
 	public function index() {
 
-		//$get = $this->cleanupArray($this->request->get);
 		$get = $this->cleanupArray($this->request->get);
 
-		$this->type = $_GET['type'];
-		// if(key_exists('type',$get)) {
-		// 	$this->type = $this->cleanupArray($get['type']);
-		// } else {
-		// 	$this->type = return false;
-		// }
+		$this->type = $get['type'];
+
+		$allTyps = array(
+			'batterien' => 51,
+			'kettenkits' => 52,
+			'bremsbelaege' => 53
+		);
+
+		if(!isset($get['typs'])) {
+			$get['typs'] = $allTyps[$this->type];
+		}
 
 		if(key_exists('atts',$get)) {
 			$get['atts'] = $this->cleanupArray($get['atts']);
 		}
 
+		$limit = isset($get['limit']) ? $get['limit'] : 12;
+
 		$this->load->model('custom/filter');
 
 		$json = $this->model_custom_filter->getProducts($get);
+
+		$json['totalPages'] = ceil($json['count'] / $limit);
+
+		$newGet = array_merge($get, array('wanted' => 'brands'));
+		$json['brands'] = $this->model_custom_filter->getOptions($newGet);
+
+		$json['query'] = $get;
 
 		if (isset($this->request->server['HTTP_ORIGIN'])) {
 			$this->response->addHeader('Access-Control-Allow-Origin: ' . $this->request->server['HTTP_ORIGIN']);
@@ -103,7 +117,6 @@ class ControllerApiFilterTeilen extends Controller {
 		unset($get['route']);
 
 		if(key_exists('atts',$get)) {
-
 			$get['atts'] = $this->cleanupArray($get['atts']);
 		}
 
@@ -145,11 +158,11 @@ class ControllerApiFilterTeilen extends Controller {
 	}
 
 
-
-
 	public function get_marka_data() {
 
-		$this->type = $_GET['type'];
+		$get = $this->cleanupArray($this->request->get);
+		
+		$this->type = $get['type'];
 
 		$query = $this->db->query("
 			SELECT kk.marka
@@ -171,8 +184,6 @@ class ControllerApiFilterTeilen extends Controller {
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($data));
 	}
-
-
 
 
 	public function get_model_data() {
@@ -202,7 +213,7 @@ class ControllerApiFilterTeilen extends Controller {
 
 		$group_by = "GROUP BY kk.marka, kk.ccm, kk.model, kk.year";
 
-		if($this->type === 'bremsbelage') {
+		if($this->type === 'bremsbelaege') {
 			if(key_exists('antrieb',$get)) {
 				$antrieb = $get['antrieb'];
 				$where .= "AND kk.antrieb = '$antrieb' ";
@@ -267,13 +278,11 @@ class ControllerApiFilterTeilen extends Controller {
 
 
 
-
 	public function get_product_data() {
 
 		$get = $this->cleanupArray($this->request->get);
 
 		$this->type = $_GET['type'];
-
 
 		$where = "WHERE ";
 		$group_by = "GROUP BY ";
@@ -301,11 +310,11 @@ class ControllerApiFilterTeilen extends Controller {
 		}
 
 
-		if($this->type === 'bremsbelage') {
+		if($this->type === 'bremsbelaege') {
 			if(key_exists('antrieb',$get)) {
 				$antrieb = $get['antrieb'];
 			}
-			$group_by .= ", kk.product_'$antrieb'";
+			$group_by .= ", kk.product_id_" . $antrieb . "";
 		} else {
 			$group_by .= ", kk.product";
 		}
@@ -313,8 +322,8 @@ class ControllerApiFilterTeilen extends Controller {
 
 		$select = "SELECT kk.product_id ";
 
-		if($this->type === 'bremsbelage') {
-			$select = "SELECT kk.product_id_".$antrieb." ";
+		if($this->type === 'bremsbelaege') {
+			$select = "SELECT kk.product_id_$antrieb ";
 		}
 
 		$query = $this->db->query(
@@ -328,8 +337,14 @@ class ControllerApiFilterTeilen extends Controller {
 
 		$prodsCont = [];
 
+
+
 		foreach ($query as $key => $q) {
-			$prodsCont[] = $q['product_id'];
+			if($this->type !== 'bremsbelaege') {
+				$prodsCont[] = $q['product_id'];
+			} else {
+				$prodsCont[] = $q["product_id_$antrieb"];
+			}
 		}
 
 		
@@ -358,6 +373,11 @@ class ControllerApiFilterTeilen extends Controller {
 		$json['query'] = $get;
 		//$json['query']['limit'] = $limit;
 
+		// $this->load->model('custom/filter');
+		// $newGet = array_merge($get, array('wanted' => 'brands'));
+		$brands = implode(',',$prodsCont);
+		$json['brands'] = $this->getBrands($brands);
+
 
 		if (isset($this->request->server['HTTP_ORIGIN'])) {
 			$this->response->addHeader('Access-Control-Allow-Origin: ' . $this->request->server['HTTP_ORIGIN']);
@@ -370,12 +390,6 @@ class ControllerApiFilterTeilen extends Controller {
 		$this->response->setOutput(json_encode($json));
 		//var_dump($sve);
 	}
-
-
-
-
-
-
 
 
 
@@ -399,6 +413,8 @@ class ControllerApiFilterTeilen extends Controller {
 	   foreach ($get as $key => $g) {
 	      if($g === NULL || $g === '' || $g === "") {
 	         unset($get[$key]);
+	      } else {
+	      	$get[$key] = urldecode($g);
 	      }
 	   }
 		return $get;
@@ -413,6 +429,41 @@ class ControllerApiFilterTeilen extends Controller {
 		}
 		return $unique;
 	}
+
+
+
+	public function getBrands($product_ids) {
+
+      $query = $this->db->query("
+      	SELECT DISTINCT *, p.manufacturer_id, p.product_id,
+         m.name AS brand_name
+      	FROM cc_product p
+			LEFT JOIN cc_manufacturer m ON p.manufacturer_id = m.manufacturer_id
+			WHERE p.product_id IN (".$product_ids.")
+			GROUP BY p.manufacturer_id 
+      ");
+
+		if ($query->num_rows) {
+
+			$niz = [];
+
+			foreach ($query->rows as $q) {
+				$niz['brand_ids'][] = $q['manufacturer_id'];
+				$niz['brands'][] = array(
+					'brand_id' => $q['manufacturer_id'],
+					'brand_name' => $q['brand_name'],
+				);
+			}
+			return $niz;
+		} else {
+			return false;
+		}
+
+	}
+
+
+
+
 
 
 
@@ -505,7 +556,6 @@ class ControllerApiFilterTeilen extends Controller {
 
 			}
 			return $niz;
-			
 		} else {
 			return false;
 		}

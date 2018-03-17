@@ -1,20 +1,14 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import SideFilterGroup from './form_items/SideFilterGroup';
 import FilterBySizeSide from '../forms/FilterBySizeSide';
 import FilterByVehicleSide from '../forms/FilterByVehicleSide';
 
 //import { Router, Route, Link, browserHistory } from 'react-router';
+import { baseApiUrl, checkStatus, returnJSON } from '../lib/constants';
 
-import { fixURLQuery, basePath, baseUrl, baseApiUrl, checkStatus, returnJSON, serialize2 } from '../lib/constants';
-
-export default class ResultsSideFilter extends Component {
-
-   static defaultProps = {
-      brands: [],
-      typs: [],
-      query: {}
-   };
+class ResultsSideFilter extends Component {
 
    state = {
       brandsSource: 'filter/get_options&wanted=brands'+window.location.search.replace('?','&'),
@@ -28,19 +22,15 @@ export default class ResultsSideFilter extends Component {
       zoll:''
    };
 
-   constructor(props) {
-      super(props);
-   }
-
    componentWillMount() {
-      ['brands','typs','atts'].map((val) => {
+      ['brands','typs','atts'].forEach((val) => {
          this.getAttributes(val,this.props.search.replace('?', '&'));
       });
    }
 
    componentWillReceiveProps(newProps) {
       if(newProps.query !== this.props.query) {
-         ['brands','typs','atts'].map((val) => {
+         ['brands','typs','atts'].forEach((val) => {
             this.getAttributes(val,newProps.search.replace('?', '&'));
          });
       }
@@ -79,7 +69,7 @@ export default class ResultsSideFilter extends Component {
 
    render() {
 
-      let { search, query } = this.props;
+      let { query } = this.props;
 
       let sizes = '';
       if(query.hasOwnProperty('parent') && query.parent === '49') {
@@ -121,7 +111,7 @@ export default class ResultsSideFilter extends Component {
       );
 
       let vehicle = '';
-      if(query.hasOwnProperty('atts') && Object.keys(query.atts).length !== 0 && (query.hasOwnProperty('typs') && query.typs === '51' || query.typs === '52' || query.typs === '53')) {
+      if(query.hasOwnProperty('atts') && Object.keys(query.atts).length !== 0 && (query.hasOwnProperty('typs') && (query.typs === '51' || query.typs === '52' || query.typs === '53'))) {
          console.log(query);
          vehicle = <FilterByVehicleSide />;
          kategorije = '';
@@ -151,3 +141,17 @@ export default class ResultsSideFilter extends Component {
       );
    }
 }
+
+ResultsSideFilter.defaultProps = {
+   brands: [],
+   typs: [],
+   query: {}
+};
+
+ResultsSideFilter.propTypes = {
+   brands: PropTypes.array,
+   typs: PropTypes.array,
+   query: PropTypes.object
+};
+
+export default ResultsSideFilter;

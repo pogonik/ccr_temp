@@ -1,11 +1,9 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 
 import SideFilterGroup from './form_items/SideFilterGroup';
 import FilterByVehicleSide from '../forms/FilterByVehicleSide';
 
 import { baseUrl, baseApiUrl, getURLQuery, getPathname, syncReq, checkStatus, returnJSON } from '../lib/constants';
-
-import axios from 'axios';
 
 export default class SideFilter extends Component {
 
@@ -18,10 +16,6 @@ export default class SideFilter extends Component {
       rootVal: '',
       parent: ''
    };
-
-   constructor(props) {
-      super(props);
-   }
 
    componentDidMount() {
 

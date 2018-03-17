@@ -63,15 +63,9 @@ class MainMenuLG extends Component {
 		document.querySelectorAll(".active").classList.remove('active');
 		document.querySelector("#"+val).classList.toggle('open');
 		document.querySelector("a."+val).classList.toggle('active');
-		// $("open").removeClass('open');
-		// $("active").removeClass('active');
-		// $("#"+val).toggleClass('open');
-		// $("a."+val).toggleClass('active');
 	};
 
 	render() {
-
-		let visina = window.innerHeight+'px';
 
 		if(localStorage.dropdown && localStorage.dropdown === false) {
 			this.closeDropdown();

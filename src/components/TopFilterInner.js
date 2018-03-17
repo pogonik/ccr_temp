@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 
 import Tabs from './Tabs';
 
@@ -7,18 +7,12 @@ import FilterByVehicle from '../forms/FilterByVehicle';
 
 import { FilterTabBtn1, FilterTabBtn2 } from '../svg/Icons';
 
-import { baseApiUrl, checkStatus, returnJSON } from '../lib/constants';
-
 export default class TopFilterInner extends Component {
 
    state = {
       activeTab: 0,
       message: ''
    };
-
-   constructor(props) {
-      super(props);
-   }
 
    handleTabChange = (e, btn) => {
       document.querySelector('nav.tab_nav button.active').classList.remove('active');

@@ -3,7 +3,7 @@ import React from 'react';
 import MainMenuLG from './MainMenuLG';
 import MainMenuMob from './MainMenuMob';
 
-const MainMenu = props => {
+const MainMenu = (props) => {
 
 	if(props.sirina > 1200) {
 		return (<MainMenuLG/>);

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { StarIcon } from '../svg/Icons';
 
@@ -41,6 +42,11 @@ class Stars extends Component {
 		);
 	}
 }
+
+Stars.propTypes = {
+	grade: PropTypes.number,
+	size: PropTypes.string
+};
 
 Stars.defaultProps = {
 	grade: 0,

@@ -4,9 +4,11 @@ import Selekt from 'react-select';
 
 import { baseUrl, baseApiUrl, checkStatus, returnJSON, getURLQuery, serialize, serialize4URL, getPathname } from '../lib/constants';
 
-let type = getPathname();
+let type = getURLQuery('type');
 
-export default class FilterByVehicleSide extends Component {
+let opts = ['marka', 'ccm', 'model', 'year', 'antrieb'];
+
+export default class FilterByVehicleTeilen extends Component {
 
    state = {
       selectOptions: [],
@@ -21,7 +23,24 @@ export default class FilterByVehicleSide extends Component {
    };
 
    componentWillMount() {
+      this.checkData();
       this.getMarkaData();
+   }
+
+   componentWillReceiveProps(nextProps) {
+      
+   }
+
+   checkData() {
+      opts.forEach((itm,i) => {
+         let query = this.state.query;
+         let disabled = this.state.disabled;
+         if(getURLQuery(itm)) {
+            query[itm] = getURLQuery(itm);
+            disabled[i] = false;
+            this.setState({ query, disabled });
+         }
+      });
    }
 
    getMarkaData = () => {
@@ -68,29 +87,36 @@ export default class FilterByVehicleSide extends Component {
       if(val === null) {
          for(let i=num; i < 5; i++) {
             disabled[i+1] = true;
-            Object.assign(query, { [niz[i]]: val });
+            delete query[name];
+            //Object.assign(query, { [niz[i]]: val });
          }
       } else {
          disabled[num+1] = false;
          Object.assign(query, { [name]: val.value });
       }
 
-      if(name === 'year' && type !== 'bremsbelage') {
+      if(name === 'year' && type !== 'bremsbelaege') {
          if(val === null) {
             disabled[5] = true;
+            delete query[name];
          } else {
             disabled[5] = false;
          }
       }
 
-      this.setState({ query, disabled }, this.getModelData);
+      this.setState({ query, disabled }, () => {
+         this.getModelData();
+         //console.log(query);
+         this.props.onChange(query);
+      });
    }
 
    submitValues = (e) => {
       e.preventDefault();
-      let params = serialize4URL(this.state.atts);
-      params = params.replace('&', '%26');
-      window.location = baseUrl+'filter?'+params+'&type='+type;
+      //let query = serialize4URL(this.state.query);
+      this.props.onChange(this.state.query);
+      // params = params.replace('&', '%26');
+      // window.location = baseUrl+'filter?'+params+'&type='+type;
       // window.location = baseUrl+'filter?'+params+'&parent=65,76,77&typs='+cat_id;
    };
 

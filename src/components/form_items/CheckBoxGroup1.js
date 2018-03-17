@@ -19,7 +19,7 @@ class CheckBoxGroup1 extends Component {
 	}
 
 	render() {
-		let itms = _.map(this.props.items, (val, key) => {
+		let itms = this.props.items.map((val, key) => {
 			return <CheckBox label={val.name} value={val.id} key={key} onSelect={this.setSelected} />
 		});
 

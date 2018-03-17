@@ -1,7 +1,7 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import Select from 'react-select';
 
-import { getURLQuery, URLParamsToObject } from '../lib/constants';
+import { getURLQuery, URLParamsToObject, sortOptions, perPageOptions } from '../lib/constants';
 
 export default class Sort extends Component {
 
@@ -11,10 +11,6 @@ export default class Sort extends Component {
       sort: 'pd.name'
    };
 
-   constructor(props) {
-      super(props);
-   }
-
    componentWillMount() {
       let limit = getURLQuery('limit') ? getURLQuery('limit') : '12';
       let order = getURLQuery('order') ? getURLQuery('order') : 'ASC';
@@ -22,22 +18,6 @@ export default class Sort extends Component {
 
       this.setState({ limit, order, sort });
    }
-
-   sortOptions = [
-      { value: 'pd.name|ASC', label: 'Name (A - Z)' },
-      { value: 'pd.name|DESC', label: 'Name (Z - A)' },
-      { value: 'p.price|ASC', label: 'Price (low > high)' },
-      { value: 'p.price|DESC', label: 'Price (high > low)' },
-      { value: 'm.name|ASC', label: 'Brand (A - Z)' },
-      { value: 'm.name|DESC', label: 'Brand (Z - A)' }
-   ];
-
-   perPageOptions = [
-      { value: '12', label: '12' },
-      { value: '24', label: '24' },
-      { value: '48', label: '48' },
-      { value: '96', label: '96' }
-   ];
 
    setSort = (name, e) => {
       if(name === 'sort') {

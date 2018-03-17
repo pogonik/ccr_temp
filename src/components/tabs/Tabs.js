@@ -1,25 +1,25 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 
 import TabPanel from './TabPanel';
 import TabNav from './TabNav';
 
 export default class Tabs extends Component {
 
-   static propTypes = {
-      index: PropTypes.number
-   };
+   // static propTypes = {
+   //    index: PropTypes.number
+   // };
 
-   static defaultProps = {
-      index: 0
-   };
+   // static defaultProps = {
+   //    index: 0
+   // };
 
    state = {
       size: 0
    };
 
-   constructor(props) {
-      super(props);
-   }
+   // constructor(props) {
+   //    super(props);
+   // }
 
    buildTabContent(e) {
       var panel;

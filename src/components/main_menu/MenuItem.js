@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class MenuItem extends Component {
-
-	state = {
-	};
-
-	constructor(props) {
-		super(props);
-	}
 
 	handleTheClick = (e) => {
 		e.preventDefault();

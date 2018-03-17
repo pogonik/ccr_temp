@@ -4,8 +4,6 @@ import Select from 'react-select';
 
 import { baseApiUrl, checkStatus, returnJSON } from '../lib/constants';
 
-var selected = {};
-
 export default class ReifenForm extends Component {
 
 	state = {

@@ -1,27 +1,8 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-export default class TabNav extends Component {
-
-   static propTypes = {
-      index: PropTypes.number
-   };
-
-   static defaultProps = {
-      index: 0
-   };
-
-   state = {
-   };
-
-   constructor(props) {
-      super(props);
-   }
-
-   render() {
-      return (
-         <nav className="tab_nav">
-            {this.props.children}
-         </nav>
-      );
-   }
+const TabNav = ({ children }) => {
+   return <nav className="tab_nav">{children}</nav>
 }
+
+export default TabNav;

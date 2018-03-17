@@ -3,7 +3,7 @@ import React, { PropTypes, Component } from 'react';
 
 import Select from 'react-select';
 import { Tire } from '../svg/Icons';
-import { basePath, baseUrl, baseApiUrl, checkStatus, returnJSON, serialize2 } from '../lib/constants';
+import { basePath, baseUrl, baseApiUrl, checkStatus, returnJSON } from '../lib/constants';
 
 export default class FilterBySizeSide extends Component {
 

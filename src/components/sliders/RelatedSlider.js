@@ -1,26 +1,15 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { baseUrl, baseApiUrl, checkStatus, returnJSON } from '../../lib/constants';
 
 import RelatedProduct from '../RelatedProduct';
 
-export default class RelatedSlider extends Component {
-
-   static propTypes = {
-      title: PropTypes.string
-   };
-
-   static defaultProps = {
-      title: ''
-   };
+class RelatedSlider extends Component {
 
    state = {
       cards: [],
    };
-
-   constructor(props) {
-      super(props);
-   }
 
    componentWillMount() {
       this.fetchData(this.props.products);
@@ -101,3 +90,13 @@ export default class RelatedSlider extends Component {
       );
    }
 }
+
+RelatedSlider.propTypes = {
+   title: PropTypes.string
+};
+
+RelatedSlider.defaultProps = {
+   title: ''
+};
+
+export default RelatedSlider;

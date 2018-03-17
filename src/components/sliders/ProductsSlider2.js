@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { baseUrl, baseApiUrl, checkStatus, returnJSON } from '../../lib/constants';
 
@@ -6,26 +7,12 @@ import Flickity from 'flickity';
 
 import Card from '../Card';
 
-export default class ProductsSlider2 extends Component {
-
-   static propTypes = {
-      products: PropTypes.array,
-      title: PropTypes.string
-   };
-
-   static defaultProps = {
-      products: [],
-      title: ''
-   };
+class ProductsSlider2 extends Component {
 
    state = {
       total: this.props.products.length,
       cards: [],
    };
-
-   constructor(props) {
-      super(props);
-   }
 
    componentWillMount() {
       this.fetchData(this.props.products);
@@ -116,3 +103,16 @@ export default class ProductsSlider2 extends Component {
       );
    }
 }
+
+
+ProductsSlider2.propTypes = {
+   products: PropTypes.array,
+   title: PropTypes.string
+};
+
+ProductsSlider2.defaultProps = {
+   products: [],
+   title: ''
+};
+
+export default ProductsSlider2;

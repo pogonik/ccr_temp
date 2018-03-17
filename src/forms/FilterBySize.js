@@ -1,13 +1,11 @@
-import React, { PropTypes, Component } from 'react';
-import { Router, Route, browserHistory, withRouter } from 'react-router';
+import React, { Component } from 'react';
+// import { Router, Route, browserHistory, withRouter } from 'react-router';
 
 import Select from 'react-select';
 
 import { Tire } from '../svg/Icons';
 
-import { basePath, baseUrl, baseApiUrl, checkStatus, returnJSON, serialize } from '../lib/constants';
-
-let selected = {};
+import { baseUrl, baseApiUrl, checkStatus, returnJSON, serialize } from '../lib/constants';
 
 class FilterBySize extends Component {
 
@@ -29,10 +27,6 @@ class FilterBySize extends Component {
 		disabledZoll: true,
 		test: []
 	};
-
-	constructor(props) {
-		super(props);
-	}
 
 	componentWillMount() {
 		this.getSelectData();
@@ -88,7 +82,7 @@ class FilterBySize extends Component {
 	handleSelect = (name, val) => {
 
 		let query = {};
-		let {breite,hoehe,zoll} = this.state;
+		let { breite, hoehe } = this.state;
 
 		if(name === 'breite') {
 			query = {'atts':{ 'breite':val.value }};

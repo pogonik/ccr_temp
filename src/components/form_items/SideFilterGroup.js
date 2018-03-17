@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import CheckBox from './CheckBox';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import { baseUrl, baseApiUrl, checkStatus, returnJSON } from '../../lib/constants';
+import { baseApiUrl, checkStatus, returnJSON } from '../../lib/constants';
 
 class SideFilterGroup extends Component {
 
@@ -12,10 +12,6 @@ class SideFilterGroup extends Component {
 		selected: [],
 		checkboxes: []
 	};
-
-	constructor(props) {
-		super(props);
-	}
 
 	componentWillMount() {
 		this.setState({ selected: this.props.selected });
@@ -41,7 +37,7 @@ class SideFilterGroup extends Component {
 
 	selectAll = (e) => {
 		e.preventDefault();
-		let selected = this.state.data.map(val => {
+		let selected = this.state.data.forEach(val => {
 			if(this.props.activeItems.indexOf(val.id) !== -1)
 				return val.id;
 		});

@@ -1,12 +1,8 @@
-import React, { PropTypes, Component } from 'react';
-
-import { baseApiUrl, checkStatus, returnJSON } from '../lib/constants';
+import React, { Component } from 'react';
 
 import TopFilterInner from './TopFilterInner';
 
 import { Caret, LupaIcon1 } from '../svg/Icons';
-
-import axios from 'axios';
 
 export default class TopFilter extends Component {
 
@@ -14,23 +10,13 @@ export default class TopFilter extends Component {
 		open: false
 	};
 
-	constructor(props) {
-		super(props);
-	}
-
 	toggleFilter = () => {
-		// if(!this.state.open) {
-		//    setTimeout(() => { $("#filter").css({'overflow': 'visible'}); } ,300);
-		// }
-		// $("#filter").removeAttr('style');
-		// $("#filter").toggleClass('open');
 
 		if(!this.state.open) {
 			setTimeout(() => {
 				document.getElementById('filter').style.overflow = 'visible';
 			} ,300);
 		}
-
 
 		document.getElementById('filter').removeAttribute('style');
 		document.getElementById('filter').classList.toggle('open');

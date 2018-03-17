@@ -1,41 +1,22 @@
-import React, { PropTypes, Component } from 'react';
-
+import React, { Component } from 'react';
 import Selekt from 'react-select';
 import Spinner from '../components/Spinner';
 
-import { basePath, baseUrl, baseApiUrl, checkStatus, returnJSON, serialize, serialize2, syncReq } from '../lib/constants';
-
-let options = {};
-
+import { baseUrl, baseApiUrl, checkStatus, returnJSON, serialize } from '../lib/constants';
 
 export default class FilterByVehicle extends Component {
-
-	static propTypes = {
-	};
-
-	static defaultProps = {
-	};
 
 	state = {
 		selectOptions: [],
 		markaOptions: [],
 		query: {},
 		atts: {},
-		marka: '',
-		ccm: '',
-		model: '',
-		year: '',
-		antrieb: '',
 		antriebOptions: [
 			{value: "front",label: "Vorderrad"},
 			{value: "back",label: "Hinterrad"}
 		],
 		disabled: [true, true, true, true, true, true]
 	};
-
-	constructor(props) {
-		super(props);
-	}
 
 	componentWillMount() {
 		this.getMarkaData();
@@ -107,8 +88,6 @@ export default class FilterByVehicle extends Component {
 	};
 
 	render() {
-
-		let { marka, ccm, model, year, antrieb } = this.state;
 
 		return (
 			<div id="vehicle_form_wrapper" className="selects clearfix">

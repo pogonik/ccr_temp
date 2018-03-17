@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { baseUrl, mainMenuLinks } from '../../lib/constants';
+import { baseUrl } from '../../lib/constants';
 
-import { MenuArrowIcon, MenuIcon, ReturnIcon, FAQIcon, ContactIcon, Caret2 } from '../../svg/Icons';
+import { MenuArrowIcon, ReturnIcon, FAQIcon, ContactIcon, Caret2, UserIcon, BagIcon, HeartIcon } from '../../svg/Icons';
 
 import MenuDropdown from './MenuDropdownMob';
 
@@ -70,7 +70,7 @@ class MainMenuMob extends Component {
 
    render() {
 
-      let visina = window.screen.height+'px';
+      //let visina = window.screen.height+'px';
 
       if(localStorage.dropdown && localStorage.dropdown === false) {
          this.closeDropdown();
@@ -78,7 +78,9 @@ class MainMenuMob extends Component {
 
       let accountLink = (
          <a href="#" className="btn btn-default parent mob_account_box" onClick={this.collapseBox.bind(this, 'mob_account_box')}>
-            <span className="icon"><img src="catalog/view/theme/ccr/images/svg/user_icon.svg" width="20" /></span>
+            <span className="icon">
+               <UserIcon fill="#ff4600" style={{fill:'#ff4600', width:'20px', transform:'translateY(-3px)'}} />
+            </span>
             <span className="btnLabel"> My Account</span>
             <Caret2 size="17" fill="#FFF" className="caret2" />
          </a>
@@ -87,7 +89,9 @@ class MainMenuMob extends Component {
       if(document.body.classList.contains('logged')) {
          accountLink = (
             <a href="index.php?route=account/account" className="btn btn-default parent mob_account_box">
-               <span className="icon"><img src="catalog/view/theme/ccr/images/svg/user_icon.svg" width="20" /></span>
+               <span className="icon">
+                  <UserIcon fill="#ff4600" style={{fill:'#ff4600', width:'20px', transform:'translateY(-3px)'}} />
+               </span>
                <span className="btnLabel"> My Account</span>
                <Caret2 size="17" fill="#FFF" className="caret2" />
             </a>
@@ -104,9 +108,9 @@ class MainMenuMob extends Component {
             	active={this.state.activeItem} 
             	close={() => { this.closeDropdown() }} />
 
-            <Scrollbars style={{height:visina}} id="navigacija">
+            <Scrollbars style={{height: window.screen.height}} id="navigacija">
                <ul className="nav navbar-nav">
-                  <li className="menu_item home">
+                  <li className="menu_item home" style={{color:'#666'}}>
                      <span>MENU <a href="#" className="toggleMenu" onClick={this.slideMenu}><MenuArrowIcon /></a></span>
                   </li>
                   <li className="menu_item refein" ref="refein">
@@ -152,7 +156,9 @@ class MainMenuMob extends Component {
                      </li>
                      <li>
                         <a href="#" className="btn btn-default parent mob_cart_box" onClick={this.collapseBox.bind(this, 'mob_cart_box')}>
-                           <span className="icon"><img src="catalog/view/theme/ccr/images/svg/bag_icon.svg" width="20" /></span>
+                           <span className="icon">
+                              <BagIcon fill="#ff4600" style={{fill:'#ff4600', width:'20px', transform:'translateY(-3px)'}} />
+                           </span>
                            <span className="btnLabel"> My Cart</span>
                            <Caret2 size="17" fill="#FFF" className="caret2" />
                         </a>
@@ -164,7 +170,9 @@ class MainMenuMob extends Component {
                      </li>
                      <li className="likeBtn">
                         <a href="#" className="btn btn-default parent mob_like_box" onClick={this.collapseBox.bind(this, 'mob_like_box')}>
-                           <span className="icon"><img src="catalog/view/theme/ccr/images/svg/heart_icon.svg" width="18" /></span>
+                           <span className="icon">
+                              <HeartIcon fill="#ff4600" style={{fill:'#ff4600', width:'18px', transform:'translateY(-3px)'}} />
+                           </span>
                            <span className="btnLabel"> Favorites</span>
                            <Caret2 size="17" fill="#FFF" className="caret2" />
                         </a>

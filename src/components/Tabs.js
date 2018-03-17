@@ -12,20 +12,7 @@ const Tabs = props => {
 		return panel;
 	}
 
-	let style = Object.assign({
-		width:'117px',
-		height:'30px',
-		color: '#999',
-		fontFamily: 'Geogrotesque, sans-serif',
-		fontWeight: 'normal',
-		fontSize: '15px'
-	}, props.style);
-
-	return (
-		<div className="tabs">
-			{buildTabContent(props.index)}
-		</div>
-	);
+	return <div className="tabs">{buildTabContent(props.index)}</div>;
 }
 
 Tabs.defaultProps = {

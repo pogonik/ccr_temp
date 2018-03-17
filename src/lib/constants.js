@@ -1,14 +1,17 @@
-require('es6-promise').polyfill();
+import anime from 'animejs';
 
+require('es6-promise').polyfill();
 // export const baseUrl = document.querySelector("meta[name=base]").getAttribute("content");
 // export const basePath = document.querySelector("meta[name=base_path]").getAttribute("content");
 
 // export const baseUrl = 'http://dev.motorradpneuhaus.ch/';
-//export const baseUrl = 'http://localhost/ccr/';
 export const baseUrl = 'http://localhost/ccr/';
+//export const baseUrl = 'http://localhost:3000/';
+// export const basePath = '/';
+//export const baseUrl = window.location.origin+'/';
 export const basePath = '/';
 
-export const baseApiUrl = 'http://localhost/ccr/index.php?route=api/';
+export const baseApiUrl = baseUrl+'index.php?route=api/';
 // export const baseApiUrl = baseUrl+'index.php?route=api/';
 // export const baseApiUrl = baseUrl+'api/';
 
@@ -40,9 +43,9 @@ export function fixURLQuery(newQuery) {
 	//       }
 	//    }
 	// });
-	newQuery.map((val,key) => {
+	newQuery.forEach((val,key) => {
 		if(val !== null || val !== '') {
-			if(key.indexOf('atts[') != -1) {
+			if(key.indexOf('atts[') !== -1) {
 				let kljuc = key.replace('atts[','').replace(']','');
 				query['atts'][kljuc] = val;
 			} else {
@@ -58,14 +61,14 @@ export function getURLQuery(variable) {
 	var vars = query.split("&");
 	for (var i=0;i<vars.length;i++) {
 		var pair = vars[i].split("=");
-		if(pair[0] == variable) {
+		if(pair[0] === variable) {
 			return pair[1];
 		}
 	}
 	return(false);
 }
 
-export function URLParamsToObject(variable) {
+export function URLParamsToObject() {
 	let query = window.location.search.substring(1);
 	let vars = query.split("&");
 	let niz = {};
@@ -74,7 +77,7 @@ export function URLParamsToObject(variable) {
 	//    niz[newVal[0]] = newVal[1];
 	// });
 
-	vars.map((val, key) => {
+	vars.forEach((val, key) => {
 		let newVal = val.split("=");
 		niz[newVal[0]] = newVal[1];
 	});
@@ -91,7 +94,7 @@ export function getPathname() {
 }
 
 export function validateEmail(email) {
-	var regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	var regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 	return regex.test(email);
 }
@@ -101,18 +104,18 @@ export function serialize(form) {
 	var field,
 		l,
 		s = [];
-	if (typeof form == 'object' && form.nodeName == "FORM") {
+	if (typeof form === 'object' && form.nodeName === "FORM") {
 		var len = form.elements.length;
 		for (var i = 0; i < len; i++) {
 			field = form.elements[i];
-			if (field.name && !field.disabled && field.type != 'file' && field.type != 'reset' && field.type != 'submit' && field.type != 'button') {
-				if (field.type == 'select-multiple') {
+			if (field.name && !field.disabled && field.type !== 'file' && field.type !== 'reset' && field.type !== 'submit' && field.type !== 'button') {
+				if (field.type === 'select-multiple') {
 					l = form.elements[i].options.length;
 					for (var j = 0; j < l; j++) {
 						if (field.options[j].selected)
 							s[s.length] = encodeURIComponent(field.name) + "=" + encodeURIComponent(field.options[j].value);
 						}
-					} else if ((field.type != 'checkbox' && field.type != 'radio') || field.checked) {
+					} else if ((field.type !== 'checkbox' && field.type !== 'radio') || field.checked) {
 					s[s.length] = encodeURIComponent(field.name) + "=" + encodeURIComponent(field.value);
 				}
 			}
@@ -122,13 +125,13 @@ export function serialize(form) {
 }
 
 
-export function serialize2(obj) {
+export function serialize4URL(obj) {
 	var str = "";
 	for (var key in obj) {
-		if (str != "") {
+		if (str !== "") {
 			str += "&";
 		}
-		str += key + "=" + encodeURIComponent(obj[key]);
+		str += key + "=" + decodeURIComponent(obj[key]);
 	}
 	return str;
 }
@@ -147,4 +150,27 @@ export function syncReq(url) {
 	xhr.send();
 }
 
+export function scrollToTop() {
+   anime({
+      targets: document.querySelector('html, body'),
+      scrollTop: document.getElementById('products_cont').offsetTop,
+      easing: 'easeInOutQuad',
+      duration: 500
+   });
+}
 
+export const sortOptions = [
+   { value: 'pd.name|ASC', label: 'Name (A - Z)' },
+   { value: 'pd.name|DESC', label: 'Name (Z - A)' },
+   { value: 'p.price|ASC', label: 'Price (low > high)' },
+   { value: 'p.price|DESC', label: 'Price (high > low)' },
+   { value: 'm.name|ASC', label: 'Brand (A - Z)' },
+   { value: 'm.name|DESC', label: 'Brand (Z - A)' }
+];
+
+export const perPageOptions = [
+   { value: 12, label: '12' },
+   { value: 24, label: '24' },
+   { value: 48, label: '48' },
+   { value: 96, label: '96' }
+];

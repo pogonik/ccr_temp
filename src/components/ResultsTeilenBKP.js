@@ -1,25 +1,29 @@
 import React, { Component } from 'react';
-//import { Router, Route, Link, browserHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
-
-import { withRouter } from 'react-router';
+import { withRouter } from "react-router";
 
 import Product from './Product';
 import Spinner from './Spinner';
 import ReactPaginate from 'react-paginate';
 import Select from 'react-select';
 
-import SideFilter from './SideFilter';
+import FilterByVehicleSide from '../forms/FilterByVehicleSide';
 
-import ResultsSideFilter from './ResultsSideFilter';
-
-import { fixURLQuery, basePath, baseUrl,
+import { basePath, getURLQuery,
    baseApiUrl, checkStatus, returnJSON, URLParamsToObject,
-   scrollToTop, sortOptions, perPageOptions, serialize4URL } from '../lib/constants';
+   scrollToTop, serialize4URL, getPathname } from '../lib/constants';
+import { sortOptions, perPageOptions } from '../lib/helpers';
 
 import anime from 'animejs';
 
-class Results extends Component {
+// let options = {
+//    '51': 'batterie',
+//    '52': 'kettenkits',
+//    '53': 'bremsbelaege'
+// };
+let cat_id = getURLQuery('typs');
+let type = getPathname();
+
+class ResultsTeilen extends Component {
 
    state = {
       data: [],
@@ -33,48 +37,31 @@ class Results extends Component {
       error: false,
       loading: true,
       query: {
+         type: type,
          sort: 'pd.name',
          order: 'ASC',
          limit: 12,
          page: 0
-      }
+      },
+      search: []
    };
 
-   // constructor(props) {
-   //    super(props);
-   // }
 
-   componentWillMount() {
-      // let query = fixURLQuery(this.props.location.query);
-      // console.log(query);
-      // query.map((val,key) => {
-      //    this.setState({ [key]: val });
-      // });
-      // this.setState({ query: query });
-      // this.getData(this.props.location.search.replace('?', '&'));
+   componentDidMount() {
       let query = URLParamsToObject();
-      Object.entries(query).map((val,key) => {
+      Object.entries(query).forEach((val,key) => {
          this.setState({ [key]: val });
       });
+      query = Object.assign(this.state.query, query);
       this.setState({ query: query });
       this.getData('&'+serialize4URL(query));
    }
 
    componentWillReceiveProps(newProps) {
-      // this.setState({ loading: true });
-      // if(newProps.location.search !== this.props.location.search) {
-      //    let query = fixURLQuery(newProps.location.query);
-      //    query.map((val,key) => {
-      //       this.setState({ [key]: val });
-      //    });
-      //    this.setState({ query: query });
-      //    //document.querySelector("#filter_result .products").fadeOut();
-      //    this.getData(newProps.location.search.replace('?', '&'));
-      // }
       this.setState({ loading: true });
       if(newProps.location.search !== this.props.location.search) {
          let query = URLParamsToObject(newProps.location.query);
-         Object.entries(query).map((val,key) => {
+         Object.entries(query).forEach((val,key) => {
             this.setState({ [key]: val });
          });
          this.setState({ query: query });
@@ -88,27 +75,24 @@ class Results extends Component {
                document.querySelector("#filter_result .products").style.display = 'none';
             }
          });
-         //document.querySelector("#filter_result .products").fadeOut();
-         //this.getData(newProps.location.search.replace('?', '&'));
          this.getData('&'+serialize4URL(query));
       }
    }
 
 
    getData(query) {
-
-      fetch(baseApiUrl+'filter'+query, {
+      fetch(baseApiUrl+'filter_teilen/get_product_data'+query, {
          method: "GET",
          credentials: "same-origin"
-      }).then(checkStatus)
-      .then(returnJSON)
+      }).then(checkStatus).then(returnJSON)
       .then(data => {
          if(data.count < 1) {
             this.setState({ error: true, loading: false });
          } else {
-            let pages = Math.round(data.count / this.state.query.limit);
-            let totalPages = pages > 0 ? pages : 0;
-            this.setState({ data: data.result, totalPages: totalPages }, () => {
+            let totalPages = Math.round(data.count / this.state.query.limit);
+            //let totalPages = pages > 0 ? pages : 0;
+            let newQuery = Object.assign(this.state.query, URLParamsToObject());
+            this.setState({ data: data.result, totalPages: totalPages, query: newQuery }, () => {
                this.setState({ loading: false });
                anime({
                   targets: document.querySelector("#filter_result .products"),
@@ -119,7 +103,6 @@ class Results extends Component {
                      document.querySelector("#filter_result .products").style.display = 'block';
                   }
                });
-               //$("#filter_result .products").fadeIn();
             });
          }
       }).catch(err => {
@@ -128,11 +111,40 @@ class Results extends Component {
       });
    }
 
+
+   // getData(query) {
+   //    fetch(baseApiUrl+'filter_teilen'+query, {
+   //       method: "GET",
+   //       credentials: "same-origin"
+   //    }).then(checkStatus).then(returnJSON)
+   //    .then(data => {
+   //       if(data.count < 1) {
+   //          this.setState({ error: true, loading: false });
+   //       } else {
+   //          let newQuery = Object.assign(this.state.query, URLParamsToObject());
+   //          console.log(newQuery);
+   //          this.setState({ data: data.result, totalPages: data.totalPages, query: newQuery }, () => {
+   //             this.setState({ loading: false });
+   //             anime({
+   //                elements: document.querySelector("#filter_result .products"),
+   //                opacity: 1,
+   //                duration: 500
+   //             });
+   //          });
+   //       }
+   //    }).catch(err => {
+   //       this.setState({ error: true });
+   //       console.log(err);
+   //    });
+   // }
+
+   
+
    handlePageChange = (page) => {
       let query = this.state.query;
       query['page'] = page.selected;
       scrollToTop();
-      this.props.history.push(basePath+'filter?' + serialize4URL(query));
+      this.props.history.push(basePath+'filter_teilen?' + serialize4URL(query));
    };
 
    handleLimitChange = (num) => {
@@ -141,7 +153,7 @@ class Results extends Component {
       delete query.page;
       this.setState({ page:0 });
       scrollToTop();
-      this.props.history.push(basePath+'filter?' + serialize4URL(query));
+      this.props.history.push(basePath+'filter_teilen?' + serialize4URL(query));
    };
 
    handleSortChange = (val) => {
@@ -152,8 +164,54 @@ class Results extends Component {
       delete query.page;
       this.setState({ page:0 });
       scrollToTop();
-      this.props.history.push(basePath+'filter?' + serialize4URL(query));
+      this.props.history.push(basePath+'filter_teilen?' + serialize4URL(query));
    };
+
+   // handlePageChange = (page) => {
+   //    let query = this.state.query;
+   //    query['page'] = page.selected;
+
+   //    this.setState({ query }, () => {
+   //       delete query.route;
+   //       this.getData('/get_product_data&'+serialize4URL(query));
+   //       scrollToTop();
+   //    });
+   //    this.props.history.push(basePath+'filter_teilen?' + decodeURIComponent(serialize4URL(query)));
+   // };
+
+   // handleLimitChange = (num) => {
+   //    let query = this.state.query;
+   //    query['limit'] = num.value;
+   //    query['page'] = 0;
+
+   //    this.setState({ query, page: 0 }, () => {
+   //       delete query.route;
+   //       this.getData('/get_product_data&'+serialize4URL(query));
+   //       this.scrollToTop();
+
+   //       this.props.history.push('index.php?route=api/filter_teilen/get_product_data&'+serialize4URL(query));
+   //    });
+
+   //    this.props.history.push(basePath+'filter_teilen?' + decodeURIComponent(serialize4URL(query)));
+   // };
+
+   // handleSortChange = (val) => {
+   //    let sortOrder = val.value.split("|");
+
+   //    let query = this.state.query;
+   //    query['sort'] = sortOrder[0];
+   //    query['order'] = sortOrder[1];
+      
+   //    query['page'] = 0;
+
+   //    this.setState({ query, page: 0 }, () => {
+   //       delete query.route;
+   //       this.getData('/get_product_data&'+serialize4URL(query));
+   //       this.scrollToTop();
+   //    });
+
+   //    this.props.history.push(basePath+'filter_teilen?' + decodeURIComponent(serialize4URL(query)));
+   // };
 
    filterResults() {
       return this.state.data.map((val, key) => {
@@ -174,7 +232,7 @@ class Results extends Component {
                containerClassName={"pagination"}
                subContainerClassName={"pages pagination"}
                activeClassName={"active"}
-               forcePage={parseInt(this.state.page)}
+               forcePage={parseInt(this.state.query.page)}
                onPageChange={this.handlePageChange} />
          </div>;
 
@@ -190,9 +248,7 @@ class Results extends Component {
          <div className="row">
 
             <aside id="side_filter" className="col-lg-2">
-
-               <ResultsSideFilter query={this.state.query} search={'&'+serialize4URL(this.state.query)} />
-
+               <FilterByVehicleSide />
             </aside>
 
             <div id="products_cont" className="products_cont col-lg-10">
@@ -240,14 +296,15 @@ class Results extends Component {
    }
 }
 
-Results.propTypes = {
-   source: PropTypes.array,
-   max: PropTypes.number
+
+// ResultsTeilen.propTypes = {
+// 	source: PropTypes.array,
+// 	max: PropTypes.number
+// };
+
+ResultsTeilen.defaultProps = {
+	source: [],
+	max: 1
 };
 
-Results.defaultProps = {
-   source: [],
-   max: 1
-};
-
-export default withRouter(Results);
+export default withRouter(ResultsTeilen);
