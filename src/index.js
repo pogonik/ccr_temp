@@ -14,6 +14,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import { getPathname } from './lib/constants';
 
+
+
+
+
+
 //let cats = ['batterien','kettenkits','bremsbelaege'];
 let path = getPathname();
 // import createBrowserHistory from 'history/createBrowserHistory';
